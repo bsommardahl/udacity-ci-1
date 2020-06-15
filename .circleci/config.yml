@@ -22,6 +22,15 @@ jobs:
             - '{{ checksum  "/src/package.json" }}'
       - run: npm i
       - run: npm run test
+  analyze:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - '{{ checksum  "/src/package.json" }}'
+      - run: npm audit
 workflows:
   version: 2.1
   build_and_test:
@@ -29,3 +38,5 @@ workflows:
       - build
       - test:
           requires: [build]
+      - analyze:
+          requires: [test]
