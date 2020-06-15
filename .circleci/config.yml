@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run: npm i
       - save_cache:
-          key: '{{ checksum  "package.json" }}'
+          key: "npm-packages"
           paths:
             - /src/node_modules
       - run: npm run lint
