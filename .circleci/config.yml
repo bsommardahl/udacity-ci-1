@@ -6,6 +6,10 @@ jobs:
     steps:
       - checkout
       - run: npm i
+      - save_cache:
+          key: '{{ checksum  "package.json" }}'
+          paths:
+            - /src/node_modules
       - run: npm run lint
       - run: npm run build
   test:
@@ -13,6 +17,9 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - '{{ checksum  "/src/package.json" }}'
       - run: npm i
       - run: npm run test
 workflows:
